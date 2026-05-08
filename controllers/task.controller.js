@@ -11,7 +11,12 @@ export const createTask = (req, res) => {
     const { userId } = req.params;
     const { title, description, priority } = req.body;
 
-    const task = createNewTask({ ownerId: userId, title, description, priority });
+    const task = createNewTask({
+      ownerId: userId,
+      title,
+      description,
+      priority,
+    });
     res.status(201).json(task);
   } catch (err) {
     const status = err.status || 500;
