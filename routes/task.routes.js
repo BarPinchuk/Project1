@@ -7,12 +7,12 @@ import {
   deleteTaskById,
 } from "../controllers/task.controller.js";
 
-const router = Router({ mergeParams: true });
+const router = Router();
 
-router.post("/", createTask);
-router.get("/", getTasks);
-router.get("/:taskId", getTask);
-router.put("/:taskId", updateTaskById);
-router.delete("/:taskId", deleteTaskById);
+router.post("/api/users/:userId/tasks", createTask);
+router.get("/api/users/:userId/tasks", getTasks);
+router.get("/api/users/:userId/tasks/:taskId", getTask);
+router.put("/api/users/:userId/tasks/:taskId", updateTaskById);
+router.delete("/api/users/:userId/tasks/:taskId", deleteTaskById);
 
 export default router;
