@@ -10,8 +10,6 @@
  * לפונקציה עם נתונים ולבדוק מה חוזר, בלי להרים שרת בכלל.
  */
 
-let nextId = 1;
-
 const tasks = [];
 
 export const createNewTask = ({ ownerId, title, description, priority }) => {
@@ -31,7 +29,7 @@ export const createNewTask = ({ ownerId, title, description, priority }) => {
   }
 
   const existingTask = tasks.find(
-    (task) => task.ownerId === ownerId && task.title === title,
+    (task) => task.ownerId === ownerId && task.title === title
   );
   if (existingTask) {
     throw {
@@ -40,8 +38,12 @@ export const createNewTask = ({ ownerId, title, description, priority }) => {
     };
   }
 
+  const userTasks = tasks.filter((task) => task.ownerId === ownerId);
+  const nextId =
+    userTasks.length > 0 ? Math.max(...userTasks.map((task) => task.id)) + 1 : 1;
+
   const newTask = {
-    id: nextId++,
+    id: nextId,
     ownerId,
     title: title.trim(),
     description: description.trim(),
