@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import taskRouter from "./routes/task.routes.js";
+import { errorHandler } from "./middleware/errorHandler.middleware.js";
 
 dotenv.config();
 
@@ -10,4 +11,6 @@ export const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use(taskRouter);
+app.use("/api", taskRouter);
+
+app.use(errorHandler);

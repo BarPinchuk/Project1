@@ -6,46 +6,39 @@ import {
   deleteTask,
 } from "../services/task.service.js";
 
-export const createTask = (req, res) => {
+export const createTask = (req, res, next) => {
   try {
     const { userId } = req.params;
     const { title, description, priority } = req.body;
 
-    const task = createNewTask({
-      ownerId: userId,
-      title,
-      description,
-      priority,
-    });
+    const task = createNewTask({ ownerId: userId, title, description, priority });
     res.status(201).json(task);
   } catch (err) {
-    const status = err.status || 500;
-    res.status(status).json({ message: err.message || "Server error" });
+    next(err);
   }
 };
 
-export const getTasks = (req, res) => {
+export const getTasks = (req, res, next) => {
   try {
     const { userId } = req.params;
     const tasks = getTasksByOwner(userId);
     res.status(200).json(tasks);
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    next(err);
   }
 };
 
-export const getTask = (req, res) => {
+export const getTask = (req, res, next) => {
   try {
     const { userId, taskId } = req.params;
     const task = getTaskById(userId, taskId);
     res.status(200).json(task);
   } catch (err) {
-    const status = err.status || 500;
-    res.status(status).json({ message: err.message || "Server error" });
+    next(err);
   }
 };
 
-export const updateTaskById = (req, res) => {
+export const updateTaskById = (req, res, next) => {
   try {
     const { userId, taskId } = req.params;
     const updates = req.body;
@@ -53,18 +46,16 @@ export const updateTaskById = (req, res) => {
     const task = updateTask(userId, taskId, updates);
     res.status(200).json(task);
   } catch (err) {
-    const status = err.status || 500;
-    res.status(status).json({ message: err.message || "Server error" });
+    next(err);
   }
 };
 
-export const deleteTaskById = (req, res) => {
+export const deleteTaskById = (req, res, next) => {
   try {
     const { userId, taskId } = req.params;
     const deleted = deleteTask(userId, taskId);
     res.status(200).json({ message: "Task deleted", task: deleted });
   } catch (err) {
-    const status = err.status || 500;
-    res.status(status).json({ message: err.message || "Server error" });
+    next(err);
   }
 };

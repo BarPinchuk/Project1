@@ -6,13 +6,14 @@ import {
   updateTaskById,
   deleteTaskById,
 } from "../controllers/task.controller.js";
+import { validateBody } from "../middleware/validateBody.middleware.js";
 
 const router = Router();
 
-router.post("/api/users/:userId/tasks", createTask);
-router.get("/api/users/:userId/tasks", getTasks);
-router.get("/api/users/:userId/tasks/:taskId", getTask);
-router.put("/api/users/:userId/tasks/:taskId", updateTaskById);
-router.delete("/api/users/:userId/tasks/:taskId", deleteTaskById);
+router.post("/users/:userId/tasks", validateBody(["title", "description", "priority"]), createTask);
+router.get("/users/:userId/tasks", getTasks);
+router.get("/users/:userId/tasks/:taskId", getTask);
+router.put("/users/:userId/tasks/:taskId", updateTaskById);
+router.delete("/users/:userId/tasks/:taskId", deleteTaskById);
 
 export default router;
